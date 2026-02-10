@@ -1,10 +1,11 @@
 # n8n Docker Starter (Hostinger-ready)
 
 This repository runs n8n in Docker, exposes port `5678`, and persists all n8n data in a Docker volume.
+The default `docker-compose.yml` is aligned to Hostinger's image-based recommendation.
 
 ## Files
 
-- `Dockerfile`: n8n image + runtime configuration + healthcheck.
+- `Dockerfile`: optional custom image (not required for Hostinger compose deployment).
 - `docker-compose.yml`: service definition, port mapping, and persistent volume.
 - `workflows/hello-world.json`: sample workflow to import and run.
 - `scripts/test-container.sh`: simple health test script.
@@ -16,12 +17,12 @@ cp .env.example .env
 ```
 
 ```bash
-docker compose up -d --build
+docker compose up -d
 ```
 
 Open n8n at: `http://localhost:5678`
 
-If you are not using Compose:
+If you want to use your custom `Dockerfile` instead of `n8nio/n8n:latest`:
 
 ```bash
 docker build -t n8n-hostinger .
@@ -58,8 +59,11 @@ docker compose down
 ## Hostinger deployment notes
 
 - Push this repo to GitHub.
-- In Hostinger Docker deployment, build from repository root (`Dockerfile`).
+- In Hostinger Docker deployment, use `docker-compose.yml` from repo root.
 - Expose container port `5678`.
 - Attach persistent storage to `/home/node/.n8n` (or keep using Docker named volume if supported).
-- Set `WEBHOOK_URL` to your public HTTPS URL for webhook-based workflows.
-- Set timezone env var if needed: `GENERIC_TIMEZONE=Asia/Kolkata` (example).
+- In `.env`, set:
+  - `N8N_HOST=your-domain.com`
+  - `N8N_PROTOCOL=https`
+  - `WEBHOOK_URL=https://your-domain.com/`
+- Set timezone if needed: `GENERIC_TIMEZONE=Asia/Kolkata` (example).
