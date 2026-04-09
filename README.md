@@ -67,3 +67,9 @@ docker compose down
   - `N8N_PROTOCOL=https`
   - `WEBHOOK_URL=https://your-domain.com/`
 - Set timezone if needed: `GENERIC_TIMEZONE=Asia/Kolkata` (example).
+
+
+Notes
+Any changes to docker we need to perform
+docker network connect proxy n8n
+docker restart npm
